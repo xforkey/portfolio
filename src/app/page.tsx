@@ -2,21 +2,15 @@ import Image, { type ImageProps } from 'next/image'
 import Link from 'next/link'
 import SnowConeLogo from '@/images/logos/snowcone.svg';
 import HeliusLogo from '@/images/logos/helius.svg';
-import RamifyLogo from '@/images/logos/ramify.svg';
 import EazyInvLogo from '@/images/logos/eazyinv.svg';
 import EthmintLogo from '@/images/logos/ethmint.svg';
-
-import { Button } from '@/components/Button'
-import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
   LinkedInIcon,
   TwitterIcon,
 } from '@/components/SocialIcons'
-import { formatDate } from '@/lib/formatDate'
 import { SnowconeCard, HeliusCard, RamifiCard, EazyinvCard } from '@/components/CompanyCards'
-import { Avatar, AvatarContainer } from '@/components/Avatar';
 
 function MailIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -141,7 +135,7 @@ const resume = [
     company: 'Eazyinv',
     title: 'Lead Developer',
     logo: EazyInvLogo,
-    start: 'Feb 2024',
+    start: 'June 2024',
     end: 'Present',
     highlights: [
       'Led development of a DAO web app using Next.js, and smart contracts with a lighthouse score of 97.',
@@ -157,7 +151,7 @@ const resume = [
     title: 'Lead Developer',
     logo: SnowConeLogo,
     start: 'Feb 2022',
-    end: 'Feb 2024',
+    end: 'June 2024',
     highlights: [
       'Led development of a DAO web app using Next.js, and smart contracts with a lighthouse score of 97.',
       'Integrated The Graph for real-time on-chain data management with a GraphQL interface.',
@@ -168,23 +162,11 @@ const resume = [
     ],
   },
   {
-    company: 'Ramify',
-    title: 'Lead Developer',
-    logo: RamifyLogo,
-    start: 'Aug 2020',
-    end: 'Jan 2022',
-    highlights: [
-      'Designed and architected the Ramify app and landing page, integrating smart contracts.',
-      'Developed and deployed smart contracts and a GraphQL interface using The Graph.',
-      'Implemented a recurring function to airdrop tokens to users, enhancing engagement.',
-    ],
-  },
-  {
     company: 'Helius',
-    title: 'Lead Developer',
+    title: 'Senior Developer',
     logo: HeliusLogo,
     start: 'Apr 2018',
-    end: 'Aug 2020',
+    end: 'Feb 2022',
     highlights: [
       'Led the design and development of a fractional land investment app using React.',
       'Architected smart contracts and ensured legal compliance with securities laws.',
@@ -195,7 +177,7 @@ const resume = [
   },
   {
     company: 'Ethmint',
-    title: 'Fundraiser',
+    title: 'Junior Developer',
     logo: EthmintLogo,
     start: 'Apr 2017',
     end: 'Mar 2018',
@@ -271,24 +253,12 @@ export default async function Home() {
         </div>
       </Container>
       <Container className="mt-12 md:mt-16 space-y-4">
-        {/*       <CanvasRevealWithMask
-        svgUrl="/logos/cosmos.svg"  // Your SVG file
-        animationSpeed={0.4}              // Example of passing other props
-        dotSize={2}
-        opacities={[0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1]}
-      /> */}
         <SnowconeCard />
         <EazyinvCard />
         <HeliusCard />
-        <RamifiCard />
       </Container>
       <Container className="mt-12 md:mt-16">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
-          {/*           <div className="flex flex-col gap-16">
-            {articles.map((article) => (
-              <Article key={article.slug} article={article} />
-            ))}
-          </div> */}
           <Resume />
         </div>
       </Container>
