@@ -58,20 +58,6 @@ function BriefcaseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-function ArrowDownIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M4.75 8.75 8 12.25m0 0 3.25-3.5M8 12.25v-8.5"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-
 function SocialLink({
   icon: Icon,
   ...props
@@ -213,17 +199,13 @@ export default async function Home() {
   return (
     <>
       <Container className="mt-9">
-        {/*         <div className="flex flex-1">
-          <AvatarContainer>
-            <Avatar />
-          </AvatarContainer>
-        </div> */}
         <h3 className="text-lg font-bold tracking-tight text-zinc-800 dark:text-zinc-400 sm:text-3xl">
           Kyle Forkey
         </h3>
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Full stack developer / <span className="bg-gradient-to-br from-blue-200 to-fuchsia-500 bg-clip-text text-transparent">designer</span>
+            Full stack<span className="bg-gradient-to-br from-blue-200 to-fuchsia-500 bg-clip-text text-transparent">/Front End </span>
+            developer
           </h1>
 
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
