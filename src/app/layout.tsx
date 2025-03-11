@@ -3,7 +3,9 @@ import { type Metadata } from 'next'
 import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
 
+// Use our custom global CSS instead of Tailwind CSS
 import '@/styles/tailwind.css'
+import { Footer } from '@/components/Footer'
 
 export const metadata: Metadata = {
   title: {
@@ -20,11 +22,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
@@ -35,10 +34,11 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className="flex h-full bg-zinc-50 dark:bg-black">
+      <body className="flex h-full bg-zinc-50 dark:bg-zinc-900">
         <Providers>
-          <div className="flex w-full">
-            <Layout>{children}</Layout>
+          <div className="relative flex w-full flex-col">
+            <main className="flex-auto">{children}</main>
+            <Footer />
           </div>
         </Providers>
       </body>
