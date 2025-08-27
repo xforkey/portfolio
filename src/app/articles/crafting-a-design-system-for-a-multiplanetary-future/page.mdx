@@ -1,0 +1,123 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/image'
+import shadcnDash from './shadcn-mcp-server.png'
+
+export const article = {
+  author: 'Kyle Forkey',
+  date: '2025-04-13',
+  title: 'Thinking in Servers: Designing a shadcn MCP Server for Your Workflow',
+  description:
+    'A guide to thinking about how to design a shadcn MCP server covering component modeling, discovery vs. fidelity, and workflow ergonomics so your assistant becomes a reliable partner, not just a file browser.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+Shadcn/ui has become a default layer for many frontend developers. But while it’s easy enough to drop components into a project, integrating them into an **AI-augmented workflow** is a different challenge. That’s where building your own **MCP (Model Context Protocol) server** comes in.
+
+
+This isn’t about wiring up an endpoint and calling it done. It’s about asking the right questions up front: *what role should this server play in your workflow?* *What kind of relationship do you want between your AI assistant and your component library?* Once you frame the problem correctly, the code almost writes itself.
+
+{/* Asymmetric red background with clip-path */}
+ <div className='relative bg-gradient-to-br from-rose-500/90 to-red-600/90 pl-8 md:pl-12 pt-8 md:pt-12 rounded-md'>
+    <Image
+      src={shadcnDash}
+      alt="Shadcn MCP Server Dashboard"
+      className='relative z-10 rounded-lg shadow-2xl w-full h-auto'
+    />
+  </div>
+
+---
+
+## First Principles: Why a Server?
+
+When you build a shadcn MCP server, you’re not just serving files you’re defining the **interface between human design intent, AI assistance, and a living component library**.  
+
+That means thinking in terms of *contracts*, not just code:
+
+- **Discoverability vs. fidelity**   do you want your assistant to know *about* components (names, tags, categories) or to have access to the *actual source*?  
+- **Granularity vs. context**   is it enough to return a `Button.tsx`, or do you want the assistant to also see recommended usage patterns, dependencies, and Tailwind notes?  
+- **Freshness vs. stability**   should your server always reflect the bleeding edge of shadcn/ui, or pin to a known version so responses don’t drift under your feet?  
+
+These trade-offs aren’t implementation details; they’re **design choices about workflow reliability.**
+
+---
+
+## Modeling the Domain
+
+Before you write any handler, you need to **name the entities that matter** in your world. For a shadcn MCP server, those are usually:
+
+- **Components** (the raw building blocks)
+- **Demos** (opinionated usage patterns)
+- **Blocks** (composed features, like dashboards)
+- **Metadata** (dependencies, setup instructions, peer-deps)
+
+The important thing is to recognize that these are not “files.” They’re *concepts*. A single `Button` might have multiple files, a demo might embed a provider, and a block might rely on external Tailwind plugins.  
+
+Your AI assistant doesn’t care about the directory structure it cares about **units of meaning**. The MCP server is where you define that translation.
+
+```ts
+type Component = {
+  name: string
+  framework: "react" | "svelte" | "vue"
+  version: string
+  files: Array<{ path: string; code: string }>
+  metadata: {
+    dependencies: string[]
+    peerDependencies: string[]
+    notes: string[]
+  }
+}
+```
+
+The code above isn’t an implementation, it’s a **mental model**: you’re deciding what it *means* for a component to exist in your server.
+
+---
+
+## Tools as Conversations
+
+An MCP server exposes “tools”   functions the AI can call. The key insight: **design tools as conversations, not dumps of data.**
+
+For example:
+
+- `list_components`: a way of saying, *“Tell me what’s available.”*  
+- `get_component`: a way of saying, *“Now give me the details on this one thing.”*  
+- `get_block`: a way of saying, *“Show me how the pieces fit together.”*  
+
+Notice the progression: *discover → focus → expand*. You’re giving the AI a path to follow that mirrors how a human developer would work.
+
+If you skip this and just expose “getFile(path),” you’ve reduced your assistant to a file browser. If you instead design conversational tools, you give it a workflow.
+
+---
+
+## Caching, Trust, and Time
+
+Another angle to consider: **trust.**  
+
+When your AI asks for `Button`, can it trust that what you serve is up-to-date, consistent, and safe to use? This is where caching, hashing, and versioning matter. Not because they’re “best practices,” but because they answer the human question: *“Am I building on shifting sand?”*  
+
+- Cache aggressively, but tag with versions.  
+- Return file hashes so the assistant can verify integrity.  
+- Decide whether your workflow values **immutability** (always return v4.2.1) or **freshness** (always track main).  
+
+This is philosophy expressed in architecture.
+
+---
+
+## The Bigger Picture
+
+At its core, building a shadcn MCP server is less about HTTP handlers and more about **workflow ergonomics**. You’re designing the contract between yourself, your assistant, and your component library.  
+
+The technical bits; framework choice, API surface, caching strategy, flow naturally once you answer the deeper questions:
+
+1. What does *discovery* look like?  
+2. How much *context* do you want to embed?  
+3. Where do you trade *freshness* for *stability*?  
+4. How do you model *meaningful entities* beyond just files?  
+
+Answer these, and your server won’t just be an integration point. It will be a **thinking partner**;one that gives your AI the same fluency you have when working with shadcn/ui.
+

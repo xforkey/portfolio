@@ -1,0 +1,81 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/image'
+import kanban from './kanban.png'
+
+export const article = {
+  author: 'Kyle Forkey',
+  date: '2025-07-20',
+  title: 'Prompting Commits Instead of PRDs',
+  description:
+    'An alternative to heavy PRDs and meta-docs: start with a goal, prompt AI for a commit-lint style plan, then orchestrate each commit step by step. A lightweight hack for structuring complex tasks into clean, focused progress.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+ <div className='relative bg-gradient-to-br from-emerald-600/90 to-green-700/90 pl-8 md:pl-12 pt-8 md:pt-12 rounded-md'>
+    <Image
+      src={kanban}
+      alt="Kanban Board"
+      className='relative z-10 rounded-lg shadow-2xl w-full h-auto'
+    />
+  </div>
+
+When I take on a complex task with AI, I used to reach for detailed documents: a PRD-style write-up, maybe a `.cursor` doc, or some long prompt stuffed with context. It worked, but it always felt heavy. Too much ceremony up front, too much assumption about what I already knew.
+
+Lately I’ve been trying something lighter: **prompting commits.**
+
+---
+
+## The Approach
+
+Here’s how it works:
+
+1. **Set the goal**  
+   Start with the big picture outcome. Something like:  
+   *“Build an image editor with upload, crop, and filters.”*
+
+2. **Ask for a commit plan**  
+   Instead of writing a spec, I have the AI propose a series of commit-lint style commits that would logically arrive at that goal. Example:  
+   - `feat: add image upload component`  
+   - `feat: integrate cropper tool`  
+   - `feat: add filter options with preview`  
+   - `chore: refactor state management`  
+   - `fix: prevent double uploads`
+
+3. **Orchestrate the work**  
+   I feed that list to an orchestrator, which gives each commit to an agent. Each one becomes a focused, self-contained task with a clear output. The result is a set of clean, atomic commits that map directly to progress.
+
+---
+
+## Why It Works
+
+- **Laser focus**  
+  Each commit is a small, defined step. No sprawling prompts, no drifting scope.  
+
+- **Natural granularity**  
+  Commits are already the unit of work we use in development. Using them as prompts feels intuitive and portable.  
+
+- **Better outputs**  
+  Agents don’t lose track of the bigger goal, but they also aren’t drowning in it. They’re solving one step at a time.  
+
+- **Document alternative**  
+  This sidesteps writing big PRDs or meta-docs. Instead of describing every detail up front, you bootstrap the process with a commit plan and let the work unfold in code.
+
+---
+
+## Not a Silver Bullet
+
+This isn’t a solved problem or a one-size-fits-all process. Sometimes a traditional spec makes sense. Sometimes you need broader architectural notes. Prompting commits is just another tool—one that’s worked surprisingly well for me when I want momentum without overhead.
+
+---
+
+## The Bigger Picture
+
+What excites me here is less about commits and more about the **pattern**: using structures we already trust (like commit messages) as scaffolding for AI workflows. It’s simple, familiar, and immediately actionable.
+
+We’re all still experimenting with how to get the most out of AI-assisted development. For me, prompting commits has been one of those small, helpful hacks—an alternative starting point that makes complex tasks feel concrete and approachable.

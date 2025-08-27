@@ -1,0 +1,104 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/image'
+import hookProblem from './useEffectProblem.png' 
+
+export const article = {
+  author: 'Kyle Forkey',
+  date: '2025-05-02',
+  title: 'Stop Drowning Your Code in useEffect',
+  description:
+    'A rant on the overuse of React’s useEffect; how it turns declarative code back into imperative hacks, why it creates hidden complexity, and how trusting React’s model leads to cleaner, simpler apps.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+ <div className='relative bg-gradient-to-br from-sky-800/90 to-blue-900/90 pl-8 md:pl-12 pt-8 md:pt-12 rounded-md'>
+    <Image
+      src={hookProblem}
+      alt="useEffect Problem"
+      className='relative z-10 rounded-lg shadow-2xl w-full h-auto'
+    />
+  </div>
+
+React is built on a simple promise: **UI = f(state**). Your component should be a pure function of the data you give it. That’s the magic. You declare what you want, and React figures out how to keep the DOM in sync.  
+
+And then there’s [useEffect](#).  
+
+Somewhere along the way, [useEffect](#) became the duct tape of React development. Data fetching? Throw it in an effect. Syncing props to state? Effect. Formatting a value? Effect. Accidentally re-rendering too much? Just tweak the dependency array until it stops yelling at you.  
+
+This isn’t React anymore. It’s imperative spaghetti wrapped in hooks.
+
+---
+
+## What [useEffect](#) Is *Actually* For
+
+At its core, [useEffect](#) is about **side effects**: things that live *outside* the React rendering model.  
+- Subscribing to a WebSocket.  
+- Registering a global event listener.  
+- Starting or cleaning up a timer.  
+
+That’s it. Effects are escape hatches, not primary tools. They’re where you deal with the messy, stateful, non-React world.
+
+---
+
+## What Developers Use It For Instead
+
+But what do we see in codebases everywhere?  
+
+- **State synchronization hacks**  
+  ```ts
+  useEffect(() => {
+    setSomething(props.something)
+  }, [props.something])
+  ```  
+  That’s not a side effect. That’s duplicating props into state.  
+
+- **Derived values in disguise**  
+  ```ts
+  useEffect(() => {
+    setFullName(`${first} ${last}`)
+  }, [first, last])
+  ```  
+  This should just be a computed value:  
+  ```ts
+  const fullName = `${first} ${last}`
+  ```  
+
+- **Over-engineered fetching**  
+  Wrapping every async call in an effect, even when data could be handled with a loader, a server component, or a query library.  
+
+Each of these erodes React’s declarative model. They turn a clean “UI = f(state)” into “UI = some state I hope I synced correctly in an effect somewhere.”
+
+---
+
+## Why It’s a Problem
+
+1. **Hidden complexity**: Every effect adds another async subscription, another cleanup to remember.  
+2. **Race conditions galore**: Stale closures, overlapping fetches, dependency array games.  
+3. **Performance debt**: Unnecessary renders and re-renders, wasted cycles doing what React already does for free.  
+4. **Mental overhead**: Instead of trusting React’s model, you end up second-guessing every dependency and chasing phantom bugs.  
+
+The result: more code, less clarity.
+
+---
+
+## The Alternative: Trust the Model
+
+Most `useEffect` code is just React developers not trusting React.  
+
+- If you need a derived value → compute it inline or memoize it.  
+- If you need to fetch data → use a data-fetching abstraction (React Query, SWR, RSC loaders).  
+- If you need to sync state → question why you’re duplicating it in the first place.  
+
+Save `useEffect` for the things React *cannot* do declaratively. Treat it like a sharp knife: sometimes essential, but you don’t cut every sandwich with a chainsaw.
+
+---
+
+## The Rant in a Sentence
+
+`useEffect` isn’t bad. But overusing it is a code smell that tells me you’re fighting React instead of using it. If your component logic lives in a forest of effects, you don’t have a React app,you’ve reinvented jQuery with extra steps.

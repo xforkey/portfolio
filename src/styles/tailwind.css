@@ -1,0 +1,40 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import './prism.css';
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-scroll-up {
+  animation: scroll-up 10s linear infinite;
+}
+
+
+@import 'tailwindcss/utilities';
+
+@layer utilities {
+  .better-outline {
+    @apply relative block w-full;
+
+    /* Background + shadow layer */
+    @apply before:content-[''] before:absolute before:inset-px before:rounded-[calc(var(--radius)-1px)] before:bg-white before:shadow-sm;
+
+    /* Hide that layer in dark mode */
+    @apply dark:before:hidden;
+
+    /* Focus ring layer */
+    @apply after:content-[''] after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent;
+
+    /* Focus ring on focus-within */
+    @apply focus-within:after:ring-2;
+
+    /* ─────── Dynamic Variants ─────── */
+
+  }
+}
